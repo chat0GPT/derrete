@@ -15,7 +15,11 @@ import dash_bootstrap_components as dbc
 from datetime import datetime
 
 # Import data..................................................................
-df = pd.read_csv ('..\\derretembl.csv')
+# Grab CSV from Google Drive
+url = 'https://drive.google.com/file/d/1PP8QRdOOMlBalynVam62RXIvuR73nlZ7/view?usp=sharing'
+path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+
+df = pd.read_csv (path)
 
 # Fix Date format
 df["Data"] = pd.to_datetime(df["Data"], format='%d/%m/%Y')
@@ -52,7 +56,7 @@ app.layout = dbc.Container(children=[
                 dbc.Row([
                     dbc.Col(
                         html.Div([
-                            html.Img(src=r'assets/derrete_logo.jpg', 
+                            html.Img(src='https://drive.google.com/uc?export=view&id=1PP8ZqgN6t8fF3eLEz_0SCZoEXcLbZNxP', 
                                      alt='Derrete MBL com uma imagem de vela derretendo', 
                                      style={'height':'100px'}),],style={'text-align' : 'center',
                                                                         'margin' : '10px 10px 10px 10px'})
