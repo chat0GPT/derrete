@@ -15,7 +15,7 @@ import dash_bootstrap_components as dbc
 from datetime import datetime
 
 # Import data..................................................................
-df = pd.read_csv ('derretembl.csv')
+df = pd.read_csv ('..\\derretembl.csv')
 
 # Fix Date format
 df["Data"] = pd.to_datetime(df["Data"], format='%d/%m/%Y')
