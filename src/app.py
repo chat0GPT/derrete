@@ -15,9 +15,7 @@ import dash_bootstrap_components as dbc
 from datetime import datetime
 
 # Import data..................................................................
-# Grab CSV from Google Drive
-url = 'https://drive.google.com/file/d/1PP8QRdOOMlBalynVam62RXIvuR73nlZ7/view?usp=sharing'
-path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+path = 'https://raw.githubusercontent.com/chat0GPT/derrete/main/derretembl.csv'
 
 df = pd.read_csv (path)
 
@@ -32,6 +30,14 @@ for x in range(1,len(df['Seguidores'])):
 df['Diferenca'] = df['Diferenca'].astype(int)
 
 perda_total = abs(sum(df.Diferenca[(df['Diferenca'] <0)]))
+
+timedel = df['Data'].iloc[-1] - df['Data'].iloc[-2]
+taxa = (df['Seguidores'].iloc[-1] - df['Seguidores'].iloc[-2])/(timedel.days)
+if taxa <= 0:
+    titulo = 'derretimento'
+else:
+    titulo = 'crescimento'
+
 
 ## adding a column with colors
 df["Color"] = np.where(df["Diferenca"] < 0, 'red', 'green')
@@ -56,7 +62,7 @@ app.layout = dbc.Container(children=[
                 dbc.Row([
                     dbc.Col(
                         html.Div([
-                            html.Img(src='https://drive.google.com/uc?export=view&id=1PP8ZqgN6t8fF3eLEz_0SCZoEXcLbZNxP', 
+                            html.Img(src='https://github.com/chat0GPT/derrete/blob/main/assets/derrete_logo.jpg?raw=true', 
                                      alt='Derrete MBL com uma imagem de vela derretendo', 
                                      style={'height':'100px'}),],style={'text-align' : 'center',
                                                                         'margin' : '10px 10px 10px 10px'})
@@ -64,13 +70,15 @@ app.layout = dbc.Container(children=[
                     dbc.Col(
                         html.Div([
                         html.Br(),
-                        html.H5('Último dado: {}/{}/{} -- {} mucilons '.format(df['Data'].iloc[-1].date().day,
+                        html.H5('* Último dado: {}/{}/{} -- {} mucilons '.format(df['Data'].iloc[-1].date().day,
                                                            df['Data'].iloc[-1].date().month,
                                                            df['Data'].iloc[-1].date().year,
                                                            df['Seguidores'].iloc[-1])+'\N{baby}'),
-                        html.H5('Perda total desde início: {} pessoas completaram 18 anos. '.format(
-                                                           perda_total)+'\N{man}')
-                        ]), lg=6
+                        html.H5('* Perda total desde início: {} pessoas completaram 18 anos '.format(
+                                                           perda_total)+'\N{man}'),
+                        html.H5('* Taxa atual de {}: {:.2f} seguidores por dia'.format(
+                                                           titulo,taxa))                                 
+                        ]), lg=8
                         ),                                           
                 ])
             ]),
