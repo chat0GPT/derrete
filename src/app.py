@@ -88,7 +88,7 @@ app.layout = dbc.Container(children=[
                 max=dic_keys[-1],
                 marks=dic_dates,
                 step=None,
-                value=[dic_keys[-5],dic_keys[-1]],
+                value=[dic_keys[-4],dic_keys[-1]],
                 allowCross=False
             )
         ],style={'margin' : '20px 20px 20px 20px'}),
